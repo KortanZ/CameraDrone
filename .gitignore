@@ -1,5 +1,5 @@
-Drivers/
-MDK-ARM/
-!MDK-ARM/*.s
-!MDK-ARM/*.uvprojx
-!MDK-ARM/*.uvoptx
+/Drivers/
+/MDK-ARM/*
+!/MDK-ARM/*.s
+!/MDK-ARM/*.uvprojx
+!/MDK-ARM/*.uvoptx
