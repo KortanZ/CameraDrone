@@ -1,11 +1,5 @@
-/*
-!.gitignore
-!/Inc
-!/Src
-!/*.mxproject
-!/*.ioc
-!/LICENSE
-!/*.md
-!/MDK-ARM/startup_stm32f746xx.s
-!/MDK-ARM/CameraDrone.uvprojx
-!/MDK-ARM/CameraDrone.uvoptx
+/Drivers
+/MDK-ARM
+!/MDK-ARM/*.s
+!/MDK-ARM/*.uvprojx
+!/MDK-ARM/*.uvoptx
