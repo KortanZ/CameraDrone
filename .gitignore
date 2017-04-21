@@ -6,6 +6,6 @@
 !/*.ioc
 !/LICENSE
 !/*.md
-!/MDK-ARM/*.s
-!/MDK-ARM/*.uvprojx
-!/MDK-ARM/*.uvoptx
+!/MDK-ARM/startup_stm32f746xx.s
+!/MDK-ARM/CameraDrone.uvprojx
+!/MDK-ARM/CameraDrone.uvoptx
