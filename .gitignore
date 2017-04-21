@@ -1,0 +1,11 @@
+/*
+!.gitignore
+!/Inc
+!/Src
+!/*.mxproject
+!/*.ioc
+!/LICENSE
+!/*.md
+!/MDK-ARM/*.s
+!/MDK-ARM/*.uvprojx
+!/MDK-ARM/*.uvoptx
