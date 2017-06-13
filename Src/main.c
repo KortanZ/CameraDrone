@@ -33,7 +33,9 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "stm32f7xx_hal.h"
+#include "dcmi.h"
 #include "dma.h"
+#include "i2c.h"
 #include "usart.h"
 #include "gpio.h"
 
@@ -80,6 +82,8 @@ int main(void)
   MX_GPIO_Init();
   MX_DMA_Init();
   MX_USART1_UART_Init();
+  MX_DCMI_Init();
+  MX_I2C2_Init();
 
   /* USER CODE BEGIN 2 */
 
@@ -89,6 +93,15 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+    if (HAL_UART_Transmit_DMA(&huart1, ARR, 30) != HAL_OK)
+    {
+      Error_Handler();
+    }
+    HAL_Delay(5);
+    if (HAL_UART_Transmit_DMA(&huart1, note, 10) != HAL_OK)
+    {
+      Error_Handler();
+    }
   /* USER CODE END WHILE */
 
   /* USER CODE BEGIN 3 */
@@ -151,8 +164,9 @@ void SystemClock_Config(void)
     Error_Handler();
   }
 
-  PeriphClkInitStruct.PeriphClockSelection = RCC_PERIPHCLK_USART1;
+  PeriphClkInitStruct.PeriphClockSelection = RCC_PERIPHCLK_USART1|RCC_PERIPHCLK_I2C2;
   PeriphClkInitStruct.Usart1ClockSelection = RCC_USART1CLKSOURCE_PCLK2;
+  PeriphClkInitStruct.I2c2ClockSelection = RCC_I2C2CLKSOURCE_PCLK1;
   if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInitStruct) != HAL_OK)
   {
     Error_Handler();
