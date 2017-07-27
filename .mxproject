@@ -1,7 +1,7 @@
 [PreviousGenFiles]
-HeaderPath=E:/temp/CameraDriver/Inc
+HeaderPath=E:/学校/电赛/全国电赛/Camera/CameraDrone/Inc
 HeaderFiles=gpio.h;dcmi.h;dma.h;i2c.h;usart.h;stm32f7xx_it.h;stm32f7xx_hal_conf.h;main.h;fmc.h;
-SourcePath=E:/temp/CameraDriver/Src
+SourcePath=E:/学校/电赛/全国电赛/Camera/CameraDrone/Src
 SourceFiles=gpio.h;dcmi.h;dma.h;i2c.h;usart.h;stm32f7xx_it.h;stm32f7xx_hal_conf.h;main.h;gpio.c;dcmi.c;dma.c;i2c.c;usart.c;stm32f7xx_it.c;stm32f7xx_hal_msp.c;main.c;fmc.h;fmc.c;
 
 [PreviousLibFiles]
