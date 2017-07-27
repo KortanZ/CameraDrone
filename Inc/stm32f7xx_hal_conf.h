@@ -63,7 +63,7 @@
 /* #define HAL_NAND_MODULE_ENABLED   */
 /* #define HAL_NOR_MODULE_ENABLED   */
 /* #define HAL_SRAM_MODULE_ENABLED   */
-/* #define HAL_SDRAM_MODULE_ENABLED   */
+#define HAL_SDRAM_MODULE_ENABLED
 /* #define HAL_HASH_MODULE_ENABLED   */
 /* #define HAL_I2S_MODULE_ENABLED   */
 /* #define HAL_IWDG_MODULE_ENABLED   */
@@ -423,10 +423,6 @@
 #ifdef HAL_SMBUS_MODULE_ENABLED
  #include "stm32f7xx_hal_smbus.h"
 #endif /* HAL_SMBUS_MODULE_ENABLED */
-
-#ifdef HAL_MMC_MODULE_ENABLED
- #include "stm32f7xx_hal_mmc.h"
-#endif /* HAL_MMC_MODULE_ENABLED */
 
 /* Exported macro ------------------------------------------------------------*/
 #ifdef  USE_FULL_ASSERT

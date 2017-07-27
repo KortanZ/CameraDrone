@@ -1,16 +1,15 @@
 /**
   ******************************************************************************
-  * File Name          : gpio.h
-  * Description        : This file contains all the functions prototypes for 
-  *                      the gpio  
+  * @file    stm32746g_discovery_sdram.h
+  * @author  MCD Application Team
+  * @version V2.0.0
+  * @date    30-December-2016
+  * @brief   This file contains the common defines and functions prototypes for
+  *          the stm32746g_discovery_sdram.c driver.
   ******************************************************************************
-  ** This notice applies to any and all portions of this file
-  * that are not between comment pairs USER CODE BEGIN and
-  * USER CODE END. Other portions of this file, whether 
-  * inserted by the user or by software development tools
-  * are owned by their respective copyright owners.
+  * @attention
   *
-  * COPYRIGHT(c) 2017 STMicroelectronics
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -35,44 +34,55 @@
   * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   *
   ******************************************************************************
-  */
+  */ 
 
 /* Define to prevent recursive inclusion -------------------------------------*/
-#ifndef __gpio_H
-#define __gpio_H
-#ifdef __cplusplus
- extern "C" {
-#endif
+#ifndef _SDRAM_H
+#define _SDRAM_H
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f7xx_hal.h"
-#include "main.h"
+#include "fmc.h"
 
-/* USER CODE BEGIN Includes */
+/** 
+  * @brief  SDRAM status structure definition  
+  */     
+#define   SDRAM_OK         ((uint8_t)0x00)
+#define   SDRAM_ERROR      ((uint8_t)0x01)
 
-/* USER CODE END Includes */
+/** @defgroup STM32746G_DISCOVERY_SDRAM_Exported_Constants STM32746G_DISCOVERY_SDRAM Exported Constants
+  * @{
+  */ 
+#define SDRAM_DEVICE_ADDR  ((uint32_t)0xD0000000)
+#define SDRAM_DEVICE_SIZE  ((uint32_t)0x800000)  /* SDRAM device size in MBytes */
 
-/* USER CODE BEGIN Private defines */
 
-/* USER CODE END Private defines */
+//#define REFRESH_COUNT                    ((uint32_t)0x0603)   /* SDRAM refresh counter (100Mhz SD clock) */
+#define REFRESH_COUNT                    ((uint32_t)1292)
+   
+#define SDRAM_TIMEOUT                    ((uint32_t)0xFFFF)
 
-void MX_GPIO_Init(void);
-
-/* USER CODE BEGIN Prototypes */
-
-/* USER CODE END Prototypes */
-
-#ifdef __cplusplus
-}
-#endif
-#endif /*__ pinoutConfig_H */
-
+  
 /**
-  * @}
+  * @brief  FMC SDRAM Mode definition register defines
   */
+#define SDRAM_MODEREG_BURST_LENGTH_1             ((uint16_t)0x0000)
+#define SDRAM_MODEREG_BURST_LENGTH_2             ((uint16_t)0x0001)
+#define SDRAM_MODEREG_BURST_LENGTH_4             ((uint16_t)0x0002)
+#define SDRAM_MODEREG_BURST_LENGTH_8             ((uint16_t)0x0004)
+#define SDRAM_MODEREG_BURST_TYPE_SEQUENTIAL      ((uint16_t)0x0000)
+#define SDRAM_MODEREG_BURST_TYPE_INTERLEAVED     ((uint16_t)0x0008)
+#define SDRAM_MODEREG_CAS_LATENCY_2              ((uint16_t)0x0020)
+#define SDRAM_MODEREG_CAS_LATENCY_3              ((uint16_t)0x0030)
+#define SDRAM_MODEREG_OPERATING_MODE_STANDARD    ((uint16_t)0x0000)
+#define SDRAM_MODEREG_WRITEBURST_MODE_PROGRAMMED ((uint16_t)0x0000) 
+#define SDRAM_MODEREG_WRITEBURST_MODE_SINGLE     ((uint16_t)0x0200) 
 
-/**
-  * @}
-  */
+
+void BSP_SDRAM_Initialization_sequence(uint32_t RefreshCount);
+void *SDRAM_Malloc(uint32_t size);
+
+
+#endif /*_SDRAM_H */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
