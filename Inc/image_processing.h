@@ -15,7 +15,7 @@
 #define IMAGE_WIDTH 160
 #define IMAGE_SIZE ((IMAGE_HEIGHT) * (IMAGE_WIDTH))
 
-#define BLACK 0
+#define BLACK 1
 #define WHITE 255
 
 #define MAX_LEN 100
@@ -54,8 +54,6 @@ typedef struct
 }Equals;
 
 extern float his[MAX_HIS_LENGTH];
-//extern uint8_t __EXRAM image[IMAGE_HEIGHT][IMAGE_WIDTH];
-//extern uint8_t __EXRAM connectedLabel[IMAGE_HEIGHT][IMAGE_WIDTH];
 
 float Get_Histogram(uint8_t **image, float *his);
 uint8_t Osu_Threshold(float *his, float avgValue);

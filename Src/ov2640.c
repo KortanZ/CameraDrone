@@ -15,12 +15,11 @@ static void Img_Init(void);
 uint32_t currentResolution;
 
 uint8_t *ov2640_FRAME_BUFFER;
-// uint32_t *ov2640_Line_BUFFER;
 uint32_t *ov2640_GRAY_BUFFER;
-// uint8_t testCMD_Start[] = {0x01, 0xFE, 0x00};
-// uint8_t testCMD_End[] = {0xFE, 0x01, 0x00};
-uint8_t testCMD_Start[] = {0x01, 0xFE};
-uint8_t testCMD_End[] = {0xFE, 0x01};
+uint8_t testCMD_Start[] = {0x01, 0xFE, 0x00};
+uint8_t testCMD_End[] = {0xFE, 0x01, 0x00};
+// uint8_t testCMD_Start[] = {0x01, 0xFE};
+// uint8_t testCMD_End[] = {0xFE, 0x01};
 
 /**
   * @brief  Initializes the OV2640 CAMERA component.
@@ -46,14 +45,13 @@ void Img_Init(void)
 
     ov2640_FRAME_BUFFER = (uint8_t *)SDRAM_Malloc((uint32_t)OV2640_IMG_HEIGHT * OV2640_IMG_WIDTH * 2);
     ov2640_GRAY_BUFFER = (uint32_t *)SDRAM_Malloc((uint32_t)OV2640_IMG_HEIGHT * 4);
-    // ov2640_Line_BUFFER = (uint32_t *)SDRAM_Malloc(OV2640_IMG_HEIGHT * sizeof(uint32_t));
 
     for (i = 0; i < OV2640_IMG_HEIGHT; i++)
     {
-        ov2640_GRAY_BUFFER[i] = (uint32_t)ov2640_GRAY_BUFFER + OV2640_IMG_HEIGHT * 4 + (OV2640_IMG_WIDTH)*i;
+        ov2640_GRAY_BUFFER[i] = (uint32_t)ov2640_GRAY_BUFFER + OV2640_IMG_HEIGHT * 4 + (OV2640_IMG_WIDTH + 1)*i;
     }
 
-    SDRAM_Malloc(OV2640_IMG_HEIGHT * (OV2640_IMG_WIDTH));
+    SDRAM_Malloc(OV2640_IMG_HEIGHT * (OV2640_IMG_WIDTH + 1));
 }
 
 /**
@@ -193,16 +191,10 @@ void YUV2Gray(__IO YUV_Format *src, __IO uint8_t **des, uint16_t row, uint16_t c
     {
         for (j = 0; j < col; j++)
         {
-            // pixTemp = src[col * i + j].Y;
-            // for (k = 0; k < 10; k++)
-            //     ;
-            // des[i][j] = pixTemp;
-            if (src[col * i + j].Y == 0x01)
-                des[i][j] = 0x00;
-            else
-                des[i][j] = src[col * i + j].Y;
+            des[i][j] = src[col * i + j].Y;
+            // des[i][j] = i + 1;
         }
-        // des[i][j] = 0x00;
+        des[i][j] = 0x00;
     }
 }
 /******************************************************************************

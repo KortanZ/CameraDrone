@@ -1,8 +1,6 @@
 #include "image_processing.h"
 
 float his[MAX_HIS_LENGTH];
-//uint8_t __EXRAM image[IMAGE_HEIGHT][IMAGE_WIDTH];
-//uint8_t __EXRAM connectedLabel[IMAGE_HEIGHT][IMAGE_WIDTH];
 
 RunLength runList;
 EqualMark markList;
@@ -10,37 +8,33 @@ EqualMark markList;
 void Img_Process(void)
 {
     uint16_t i;
-//    float avgGray;
-//    uint8_t th;
+    float avgGray;
+    uint8_t th;
 
     YUV2Gray((YUV_Format *)ov2640_FRAME_BUFFER, (__IO uint8_t **)ov2640_GRAY_BUFFER, OV2640_IMG_HEIGHT, OV2640_IMG_WIDTH);
-//    avgGray = Get_Histogram((uint8_t **)ov2640_GRAY_BUFFER, his);
-//    th = Osu_Threshold(his, avgGray);
-//    Gray_To_BW((uint8_t **)ov2640_GRAY_BUFFER, th);
-    // WIFI_SendData(testCMD_Start);
-    // HAL_Delay(1);
-    // for (i = 0; i < OV2640_IMG_HEIGHT; i++)
-    // {
-    //   // for (j = 0; j < OV2640_IMG_WIDTH; j++)
-    //   // {
-    //   //   ov2640_Line_BUFFER[j] = ov2640_FRAME_BUFFER[i][j];
-    //   //   for (k = 0; k < 100; k++);
-    //   // }
-    //   // ov2640_Line_BUFFER[j] = 0x00;
-    //   WIFI_SendData((uint8_t *)ov2640_GRAY_BUFFER[i]);
-    //   HAL_Delay(10);
-    // }
-    // HAL_Delay(1);
-    // WIFI_SendData(testCMD_End);
-    // HAL_Delay(1);
+    avgGray = Get_Histogram((uint8_t **)ov2640_GRAY_BUFFER, his);
+    th = Osu_Threshold(his, avgGray);
+    Gray_To_BW((uint8_t **)ov2640_GRAY_BUFFER, th);
 
-    HAL_UART_Transmit(&huart1, testCMD_Start, 2, 0xffffffff);
+/* WIFI Img Send */
+    WIFI_SendData(testCMD_Start);
+    WIFI_Delay(30000);
     for (i = 0; i < OV2640_IMG_HEIGHT; i++)
     {
-        HAL_UART_Transmit(&huart1, (uint8_t *)ov2640_GRAY_BUFFER[i], OV2640_IMG_WIDTH, 0xffffffff);
+      WIFI_SendData((uint8_t *)(ov2640_GRAY_BUFFER[i]));
+      WIFI_Delay(30000);
     }
+    WIFI_SendData(testCMD_End);
 
-    HAL_UART_Transmit(&huart1, testCMD_End, 2, 0xffffffff);
+/**UART Img Send */
+    // HAL_UART_Transmit(&huart1, testCMD_Start, 2, 0xffffffff);
+    // for (i = 0; i < OV2640_IMG_HEIGHT; i++)
+    // {
+    //     HAL_UART_Transmit(&huart1, (uint8_t *)ov2640_GRAY_BUFFER[i], OV2640_IMG_WIDTH, 0xffffffff);
+    // }
+
+    // HAL_UART_Transmit(&huart1, testCMD_End, 2, 0xffffffff);
+
 }
 
 /*求图像的统计直方图，并返回图像平均灰度*/

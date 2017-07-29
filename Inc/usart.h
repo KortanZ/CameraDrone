@@ -62,7 +62,7 @@ extern void _Error_Handler(char *, int);
 void MX_USART1_UART_Init(void);
 
 /* USER CODE BEGIN Prototypes */
-
+void UART_SetBaud(void);
 /* USER CODE END Prototypes */
 
 #ifdef __cplusplus
