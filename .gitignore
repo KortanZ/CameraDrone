@@ -1,5 +1,4 @@
 /Drivers/
 /MDK-ARM/*
+/.vscode
 !/MDK-ARM/*.s
-!/MDK-ARM/*.uvprojx
-!/MDK-ARM/*.uvoptx
