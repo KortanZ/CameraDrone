@@ -18,7 +18,9 @@
 void WIFI_Init(void);
 void WIFI_SendData(uint8_t *dat);
 void WIFI_ReceiveData(uint8_t *recvBuf);
+void WIFI_Delay(uint32_t cnt);
 
 static void WIFI_Error_Handler(void);
+
 
 #endif

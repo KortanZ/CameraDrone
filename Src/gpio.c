@@ -66,12 +66,44 @@ void MX_GPIO_Init(void)
   /* GPIO Ports Clock Enable */
   __HAL_RCC_GPIOF_CLK_ENABLE();
   __HAL_RCC_GPIOH_CLK_ENABLE();
+  __HAL_RCC_GPIOC_CLK_ENABLE();
   __HAL_RCC_GPIOA_CLK_ENABLE();
+  __HAL_RCC_GPIOB_CLK_ENABLE();
   __HAL_RCC_GPIOG_CLK_ENABLE();
   __HAL_RCC_GPIOE_CLK_ENABLE();
-  __HAL_RCC_GPIOB_CLK_ENABLE();
   __HAL_RCC_GPIOD_CLK_ENABLE();
-  __HAL_RCC_GPIOC_CLK_ENABLE();
+
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOC, Drone_Reserved_0_Pin|Drone_Reserved_1_Pin|Drone_Reserved_2_Pin|Drone_Reserved_3_Pin 
+                          |Board_ReservedC8_Pin|Board_ReservedC9_Pin, GPIO_PIN_RESET);
+
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOB, Board_Reserved_Pin|Board_ReservedB1_Pin|Board_ReservedB2_Pin|Drone_Forward_Pin 
+                          |Drone_Backward_Pin|Drone_Left_Pin|Drone_Right_Pin|Board_ReservedB3_Pin 
+                          |Board_ReservedB4_Pin|Board_ReservedB5_Pin|Board_ReservedB6_Pin|Board_ReservedB7_Pin, GPIO_PIN_RESET);
+
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOD, Drone_Flag_Pin|Drone_Spin_0_Pin|Drone_Spin_1_Pin, GPIO_PIN_RESET);
+
+  /*Configure GPIO pins : PCPin PCPin PCPin PCPin 
+                           PCPin PCPin */
+  GPIO_InitStruct.Pin = Drone_Reserved_0_Pin|Drone_Reserved_1_Pin|Drone_Reserved_2_Pin|Drone_Reserved_3_Pin 
+                          |Board_ReservedC8_Pin|Board_ReservedC9_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : PBPin PBPin PBPin PBPin 
+                           PBPin PBPin PBPin PBPin 
+                           PBPin PBPin PBPin PBPin */
+  GPIO_InitStruct.Pin = Board_Reserved_Pin|Board_ReservedB1_Pin|Board_ReservedB2_Pin|Drone_Forward_Pin 
+                          |Drone_Backward_Pin|Drone_Left_Pin|Drone_Right_Pin|Board_ReservedB3_Pin 
+                          |Board_ReservedB4_Pin|Board_ReservedB5_Pin|Board_ReservedB6_Pin|Board_ReservedB7_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
   /*Configure GPIO pin : PA8 */
   GPIO_InitStruct.Pin = GPIO_PIN_8;
@@ -80,6 +112,13 @@ void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   GPIO_InitStruct.Alternate = GPIO_AF0_MCO;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : PDPin PDPin PDPin */
+  GPIO_InitStruct.Pin = Drone_Flag_Pin|Drone_Spin_0_Pin|Drone_Spin_1_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
 
 }
 

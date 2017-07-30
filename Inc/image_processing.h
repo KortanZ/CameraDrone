@@ -15,7 +15,7 @@
 #define IMAGE_WIDTH 160
 #define IMAGE_SIZE ((IMAGE_HEIGHT) * (IMAGE_WIDTH))
 
-#define BLACK 0
+#define BLACK 1
 #define WHITE 255
 
 #define MAX_LEN 10000

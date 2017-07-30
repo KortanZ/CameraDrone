@@ -46,6 +46,49 @@
 
 /* Private define ------------------------------------------------------------*/
 
+#define Drone_Reserved_0_Pin GPIO_PIN_0
+#define Drone_Reserved_0_GPIO_Port GPIOC
+#define Drone_Reserved_1_Pin GPIO_PIN_1
+#define Drone_Reserved_1_GPIO_Port GPIOC
+#define Drone_Reserved_2_Pin GPIO_PIN_2
+#define Drone_Reserved_2_GPIO_Port GPIOC
+#define Drone_Reserved_3_Pin GPIO_PIN_3
+#define Drone_Reserved_3_GPIO_Port GPIOC
+#define Board_Reserved_Pin GPIO_PIN_0
+#define Board_Reserved_GPIO_Port GPIOB
+#define Board_ReservedB1_Pin GPIO_PIN_1
+#define Board_ReservedB1_GPIO_Port GPIOB
+#define Board_ReservedB2_Pin GPIO_PIN_2
+#define Board_ReservedB2_GPIO_Port GPIOB
+#define Drone_Forward_Pin GPIO_PIN_12
+#define Drone_Forward_GPIO_Port GPIOB
+#define Drone_Backward_Pin GPIO_PIN_13
+#define Drone_Backward_GPIO_Port GPIOB
+#define Drone_Left_Pin GPIO_PIN_14
+#define Drone_Left_GPIO_Port GPIOB
+#define Drone_Right_Pin GPIO_PIN_15
+#define Drone_Right_GPIO_Port GPIOB
+#define Board_ReservedC8_Pin GPIO_PIN_8
+#define Board_ReservedC8_GPIO_Port GPIOC
+#define Board_ReservedC9_Pin GPIO_PIN_9
+#define Board_ReservedC9_GPIO_Port GPIOC
+#define Drone_Flag_Pin GPIO_PIN_2
+#define Drone_Flag_GPIO_Port GPIOD
+#define Drone_Spin_0_Pin GPIO_PIN_6
+#define Drone_Spin_0_GPIO_Port GPIOD
+#define Drone_Spin_1_Pin GPIO_PIN_7
+#define Drone_Spin_1_GPIO_Port GPIOD
+#define Board_ReservedB3_Pin GPIO_PIN_3
+#define Board_ReservedB3_GPIO_Port GPIOB
+#define Board_ReservedB4_Pin GPIO_PIN_4
+#define Board_ReservedB4_GPIO_Port GPIOB
+#define Board_ReservedB5_Pin GPIO_PIN_5
+#define Board_ReservedB5_GPIO_Port GPIOB
+#define Board_ReservedB6_Pin GPIO_PIN_6
+#define Board_ReservedB6_GPIO_Port GPIOB
+#define Board_ReservedB7_Pin GPIO_PIN_7
+#define Board_ReservedB7_GPIO_Port GPIOB
+
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */

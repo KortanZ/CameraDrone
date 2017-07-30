@@ -15,13 +15,25 @@ void Img_Process(void)
     Run_Label((uint8_t **)ov2640_GRAY_BUFFER);
     Label_Center((uint8_t **)ov2640_GRAY_BUFFER);
 
-    HAL_UART_Transmit(&huart1, testCMD_Start, 2, 0xffffffff);
+/* WIFI Img Send */
+    WIFI_SendData(testCMD_Start);
+    WIFI_Delay(30000);
     for (i = 0; i < OV2640_IMG_HEIGHT; i++)
     {
-        HAL_UART_Transmit(&huart1, (uint8_t *)ov2640_GRAY_BUFFER[i], OV2640_IMG_WIDTH, 0xffffffff);
+      WIFI_SendData((uint8_t *)(ov2640_GRAY_BUFFER[i]));
+      WIFI_Delay(30000);
     }
+    WIFI_SendData(testCMD_End);
 
-    HAL_UART_Transmit(&huart1, testCMD_End, 2, 0xffffffff);
+/**UART Img Send */
+    // HAL_UART_Transmit(&huart1, testCMD_Start, 2, 0xffffffff);
+    // for (i = 0; i < OV2640_IMG_HEIGHT; i++)
+    // {
+    //     HAL_UART_Transmit(&huart1, (uint8_t *)ov2640_GRAY_BUFFER[i], OV2640_IMG_WIDTH, 0xffffffff);
+    // }
+
+    // HAL_UART_Transmit(&huart1, testCMD_End, 2, 0xffffffff);
+
 }
 
 /*求图像的统计直方图，并返回图像平均灰度*/
