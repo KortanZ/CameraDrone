@@ -43,7 +43,7 @@ void WIFI_Init(void)
         WIFI_Error_Handler();
     }
     WIFI_Delay(1000);
-    UART_SetBaud();
+//    UART_SetBaud();
 
     datBuff = (uint8_t *)SDRAM_Malloc(OV2640_IMG_WIDTH + 3);
 }

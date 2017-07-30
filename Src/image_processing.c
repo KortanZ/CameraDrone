@@ -16,23 +16,23 @@ void Img_Process(void)
     Label_Center((uint8_t **)ov2640_GRAY_BUFFER);
 
 /* WIFI Img Send */
-    WIFI_SendData(testCMD_Start);
-    WIFI_Delay(30000);
-    for (i = 0; i < OV2640_IMG_HEIGHT; i++)
-    {
-      WIFI_SendData((uint8_t *)(ov2640_GRAY_BUFFER[i]));
-      WIFI_Delay(30000);
-    }
-    WIFI_SendData(testCMD_End);
-
-/**UART Img Send */
-    // HAL_UART_Transmit(&huart1, testCMD_Start, 2, 0xffffffff);
+    // WIFI_SendData(testCMD_Start);
+    // WIFI_Delay(30000);
     // for (i = 0; i < OV2640_IMG_HEIGHT; i++)
     // {
-    //     HAL_UART_Transmit(&huart1, (uint8_t *)ov2640_GRAY_BUFFER[i], OV2640_IMG_WIDTH, 0xffffffff);
+    //   WIFI_SendData((uint8_t *)(ov2640_GRAY_BUFFER[i]));
+    //   WIFI_Delay(30000);
     // }
+    // WIFI_SendData(testCMD_End);
 
-    // HAL_UART_Transmit(&huart1, testCMD_End, 2, 0xffffffff);
+/**UART Img Send */
+    HAL_UART_Transmit(&huart1, testCMD_Start, 2, 0xffffffff);
+    for (i = 0; i < OV2640_IMG_HEIGHT; i++)
+    {
+        HAL_UART_Transmit(&huart1, (uint8_t *)ov2640_GRAY_BUFFER[i], OV2640_IMG_WIDTH, 0xffffffff);
+    }
+
+    HAL_UART_Transmit(&huart1, testCMD_End, 2, 0xffffffff);
 
 }
 
@@ -101,7 +101,7 @@ static void Gray_To_BW(uint8_t **image)
     {
         for (j = 0; j < IMAGE_WIDTH; ++j)
         {
-            if (image[i][j] < threshold)
+					if (image[i][j] > threshold)
             {
                 image[i][j] = BLACK;
             }
@@ -261,7 +261,7 @@ static void Equal_Process(uint16_t *equal, uint16_t nValue1, uint16_t nValue2)
 void Label_Center(uint8_t **image)
 {
     uint16_t i, j, k;
-    uint16_t sumRow, sumCol, area;
+    float sumRow, sumCol, area;
     uint8_t level = 256 / (runList.data[runList.last].nLabel);
 
     for (k = 1; k < runList.data[runList.last].nLabel; ++k)
@@ -282,7 +282,7 @@ void Label_Center(uint8_t **image)
                 }
             }
         }
-        image[sumRow / area][sumCol / area] = WHITE;
+        image[(uint16_t)(sumRow / area)][(uint16_t)(sumCol / area)] = WHITE;
     }
 }
 
