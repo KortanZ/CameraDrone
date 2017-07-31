@@ -101,7 +101,7 @@ static void Gray_To_BW(uint8_t **image)
     {
         for (j = 0; j < IMAGE_WIDTH; ++j)
         {
-					if (image[i][j] > threshold)
+            if (image[i][j] > threshold)
             {
                 image[i][j] = BLACK;
             }
