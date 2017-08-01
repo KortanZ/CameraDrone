@@ -29,13 +29,13 @@ void Img_Process(void)
     }
 
 /**UART Img Send */
-    HAL_UART_Transmit(&huart1, testCMD_Start, 2, 0xffffffff);
-    for (i = 0; i < OV2640_IMG_HEIGHT; i++)
-    {
-        HAL_UART_Transmit(&huart1, (uint8_t *)ov2640_GRAY_BUFFER[i], OV2640_IMG_WIDTH, 0xffffffff);
-    }
+    // HAL_UART_Transmit(&huart1, testCMD_Start, 2, 0xffffffff);
+    // for (i = 0; i < OV2640_IMG_HEIGHT; i++)
+    // {
+    //     HAL_UART_Transmit(&huart1, (uint8_t *)ov2640_GRAY_BUFFER[i], OV2640_IMG_WIDTH, 0xffffffff);
+    // }
 
-    HAL_UART_Transmit(&huart1, testCMD_End, 2, 0xffffffff);
+    // HAL_UART_Transmit(&huart1, testCMD_End, 2, 0xffffffff);
 
 }
 
