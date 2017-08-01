@@ -2,5 +2,3 @@
 /MDK-ARM/*
 /.vscode
 !/MDK-ARM/*.s
-!/MDK-ARM/*.uvoptx
-!/MDK-ARM/*.uvprojx
