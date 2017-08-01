@@ -17,14 +17,19 @@ void Img_Process(void)
     Gray_To_BW((uint8_t **)ov2640_GRAY_BUFFER, th);
 
 /* WIFI Img Send */
-    WIFI_SendData(testCMD_Start);
-    WIFI_Delay(30000);
-    for (i = 0; i < OV2640_IMG_HEIGHT; i++)
+
+    while (recv[0] != '.')
     {
-      WIFI_SendData((uint8_t *)(ov2640_GRAY_BUFFER[i]));
-      WIFI_Delay(30000);
+        WIFI_Transparent_SendData(testCMD_Start, 2);
+        HAL_UART_Receive(&huart1, (uint8_t *)recv, 1, 1);
     }
-    WIFI_SendData(testCMD_End);
+    recv[0] = 0;
+    for (i = 0; i < OV2640_IMG_HEIGHT / 15; i++)
+    {
+		WIFI_Transparent_SendData((uint8_t *)(ov2640_GRAY_BUFFER[i * 15]), IMAGE_WIDTH * 15);
+        HAL_UART_Receive(&huart1, (uint8_t *)recv, 1, 0xffffffff);
+    }
+
 
 /**UART Img Send */
     // HAL_UART_Transmit(&huart1, testCMD_Start, 2, 0xffffffff);

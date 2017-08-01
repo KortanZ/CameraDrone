@@ -226,8 +226,8 @@ void HAL_DCMI_MspDeInit(DCMI_HandleTypeDef* dcmiHandle)
 
 void HAL_DCMI_VsyncEventCallback(DCMI_HandleTypeDef *hdcmi)
 {
-  //HAL_DCMI_Suspend(hdcmi);
-	Img_Process();
+//  HAL_DCMI_Suspend(hdcmi);
+   Img_Process();
 }
 /* USER CODE END 1 */
 

@@ -1,6 +1,6 @@
 Configuration	CameraDriver
 STM32CubeMX 	4.22.0
-Date	07/29/2017
+Date	07/31/2017
 MCU	STM32F746IGTx
 
 
@@ -129,8 +129,9 @@ Pin Nb	PINs	FUNCTIONs	LABELs
 129	PH14	DCMI_D4	
 142	PD0	FMC_D2	
 143	PD1	FMC_D3	
-144	PD2	GPIO_Output	Drone Flag
 145	PD3	DCMI_D5	
+146	PD4	GPIO_Output	Drone Flag 0
+147	PD5	GPIO_Output	Drone Flag 1
 150	PD6	GPIO_Output	Drone Spin 0
 151	PD7	GPIO_Output	Drone Spin 1
 152	PG9	DCMI_VSYNC	

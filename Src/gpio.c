@@ -83,7 +83,7 @@ void MX_GPIO_Init(void)
                           |Board_ReservedB4_Pin|Board_ReservedB5_Pin|Board_ReservedB6_Pin|Board_ReservedB7_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOD, Drone_Flag_Pin|Drone_Spin_0_Pin|Drone_Spin_1_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOD, Drone_Flag_0_Pin|Drone_Flag_1_Pin|Drone_Spin_0_Pin|Drone_Spin_1_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pins : PCPin PCPin PCPin PCPin 
                            PCPin PCPin */
@@ -113,8 +113,8 @@ void MX_GPIO_Init(void)
   GPIO_InitStruct.Alternate = GPIO_AF0_MCO;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : PDPin PDPin PDPin */
-  GPIO_InitStruct.Pin = Drone_Flag_Pin|Drone_Spin_0_Pin|Drone_Spin_1_Pin;
+  /*Configure GPIO pins : PDPin PDPin PDPin PDPin */
+  GPIO_InitStruct.Pin = Drone_Flag_0_Pin|Drone_Flag_1_Pin|Drone_Spin_0_Pin|Drone_Spin_1_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;

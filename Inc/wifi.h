@@ -12,13 +12,18 @@
 #include <string.h>
 
 #define WIFI_COMMAND_SIZE   25
-#define RXBUFFERSIZE        3
-#define RECEIVETIMEOUT      5000
+#define RXBUFFERSIZE        20
 
-void WIFI_Init(void);
-void WIFI_SendData(uint8_t *dat);
-void WIFI_ReceiveData(uint8_t *recvBuf);
-void WIFI_Delay(uint32_t cnt);
+extern uint8_t recv[RXBUFFERSIZE];
+
+extern void WIFI_Init(void);
+extern void WIFI_SendData(uint8_t *dat);
+extern void WIFI_ReceiveData(uint8_t *recvBuf, uint16_t length);
+extern void WIFI_Delay(uint32_t cnt);
+extern void WIFI_CheckOK(void);
+
+extern void WIFI_Transparent_Init(void);
+extern void WIFI_Transparent_SendData(uint8_t *dat, uint16_t size);
 
 static void WIFI_Error_Handler(void);
 

@@ -72,8 +72,10 @@
 #define Board_ReservedC8_GPIO_Port GPIOC
 #define Board_ReservedC9_Pin GPIO_PIN_9
 #define Board_ReservedC9_GPIO_Port GPIOC
-#define Drone_Flag_Pin GPIO_PIN_2
-#define Drone_Flag_GPIO_Port GPIOD
+#define Drone_Flag_0_Pin GPIO_PIN_4
+#define Drone_Flag_0_GPIO_Port GPIOD
+#define Drone_Flag_1_Pin GPIO_PIN_5
+#define Drone_Flag_1_GPIO_Port GPIOD
 #define Drone_Spin_0_Pin GPIO_PIN_6
 #define Drone_Spin_0_GPIO_Port GPIOD
 #define Drone_Spin_1_Pin GPIO_PIN_7

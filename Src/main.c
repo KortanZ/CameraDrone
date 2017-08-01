@@ -106,7 +106,7 @@ int main(void)
   /* USER CODE BEGIN 2 */
   BSP_SDRAM_Initialization_sequence(REFRESH_COUNT);
   ov2640_Init(ov2640_R160x120);
-  WIFI_Init();
+  WIFI_Transparent_Init();
   ov2640_SetYUV();
   ov2640_ContinuousStart(ov2640_FRAME_BUFFER);
   /* USER CODE END 2 */
@@ -118,12 +118,12 @@ int main(void)
   /* USER CODE END WHILE */
 
   /* USER CODE BEGIN 3 */
-    //    if (hdcmi.State == HAL_DCMI_STATE_SUSPENDED)
-    //    {
-    //      /*Process image*/
-    //      Img_Process();
-    //      HAL_DCMI_Resume(&hdcmi);
-    //    }
+//    if (hdcmi.State == HAL_DCMI_STATE_SUSPENDED)
+//    {
+//      /*Process image*/
+//      Img_Process();
+//      HAL_DCMI_Resume(&hdcmi);
+//    }
   }
   /* USER CODE END 3 */
 
