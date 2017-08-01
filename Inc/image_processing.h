@@ -18,7 +18,7 @@
 #define BLACK 0
 #define WHITE 255
 
-#define MAX_LEN 100
+#define MAX_LEN 1000
 
 typedef struct 
 {
@@ -55,11 +55,16 @@ typedef struct
 
 extern float his[MAX_HIS_LENGTH];
 
-float Get_Histogram(uint8_t **image, float *his);
-uint8_t Osu_Threshold(float *his, float avgValue);
-void Gray_To_BW(uint8_t **image, uint8_t threshold);
-void Run_Label(uint8_t (*labeledImage)[IMAGE_WIDTH], uint8_t (*image)[IMAGE_WIDTH]);
-void Equal_Process(uint16_t *equal, uint16_t nValue1, uint16_t nValue2);
+/*------------Exported functions-----------*/
+void Img_Process(void);
 
-extern void Img_Process(void);
+/*------------Private functions-----------*/
+static float Get_Histogram(uint8_t **image, float *his);
+static uint8_t Osu_Threshold(float *his, float avgValue);
+static void Gray_To_BW(uint8_t **image);
+static void Run_Label(uint8_t **image);
+static void Equal_Process(uint16_t *equal, uint16_t nValue1, uint16_t nValue2);
+static void Label_Center(uint8_t **image);
+static void Mid_Filter(uint8_t **image);
+
 #endif

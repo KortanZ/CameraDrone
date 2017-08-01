@@ -16,8 +16,10 @@ uint32_t currentResolution;
 
 uint8_t *ov2640_FRAME_BUFFER;
 uint32_t *ov2640_GRAY_BUFFER;
+
 // uint8_t testCMD_Start[] = {0x01, 0xFE, 0x00};
 // uint8_t testCMD_End[] = {0xFE, 0x01, 0x00};
+
 uint8_t testCMD_Start[] = {0x01, 0xFE};
 uint8_t testCMD_End[] = {0xFE, 0x01};
 
