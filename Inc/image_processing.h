@@ -18,7 +18,7 @@
 #define BLACK 0
 #define WHITE 255
 
-#define MAX_LEN 1000
+#define MAX_LEN 10000
 
 typedef struct 
 {
@@ -54,6 +54,10 @@ typedef struct
 }Equals;
 
 extern float his[MAX_HIS_LENGTH];
+
+extern RunLength *runList;
+extern EqualMark *markList;
+extern Equals *equal;
 
 /*------------Exported functions-----------*/
 void Img_Process(void);

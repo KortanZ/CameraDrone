@@ -7,6 +7,7 @@
 #include "dcmi.h"
 #include "i2c.h"
 #include "sdram.h"
+#include "image_processing.h"
 
 /** 
   * @brief  SCCB Timeout  

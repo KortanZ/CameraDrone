@@ -11,10 +11,10 @@ if __name__ == '__main__':
     buf = []
     cmd1 = ['\x01', '\xfe']
     cmd2 = ['\xfe', '\x01']
-    img = []
+    img = [255 for i in range(160 * 120)]
 
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  # start socket
-    sock.bind(('192.168.43.204', 8080))
+    sock.bind(('192.168.43.5', 8080))
     sock.listen(5)  # start TCP listening
     connection, address = sock.accept()  # wait client connection
     print 'Connected by', address
@@ -28,7 +28,6 @@ if __name__ == '__main__':
         img.reverse()
         glDrawPixels(160, 120, GL_LUMINANCE, GL_UNSIGNED_BYTE, img)
         glFlush()
-        img = []
 
     def IdleCallBack():
         global buf, cmd1, cmd2, img
@@ -43,7 +42,7 @@ if __name__ == '__main__':
                 connection.send(',')
             for j in range(len(tmp)):
                 for k in range(len(tmp[j])):
-                    img.append(ord(tmp[j][k]))
+                    img[k + j * 160 * 15] = ord(tmp[j][k])
             Draw()
 
     glutInit()

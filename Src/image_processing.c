@@ -2,8 +2,9 @@
 
 float his[MAX_HIS_LENGTH];
 
-static RunLength runList;
-static EqualMark markList;
+RunLength *runList;
+EqualMark *markList;
+Equals *equal;
 
 void Img_Process(void)
 {
@@ -15,7 +16,7 @@ void Img_Process(void)
     Run_Label((uint8_t **)ov2640_GRAY_BUFFER);
     Label_Center((uint8_t **)ov2640_GRAY_BUFFER);
 
-/* WIFI Img Send */
+    /* WIFI Img Send */
     while (recv[0] != '.')
     {
         WIFI_Transparent_SendData(testCMD_Start, 2);
@@ -24,11 +25,11 @@ void Img_Process(void)
     recv[0] = 0;
     for (i = 0; i < OV2640_IMG_HEIGHT / 15; i++)
     {
-		WIFI_Transparent_SendData((uint8_t *)(ov2640_GRAY_BUFFER[i * 15]), IMAGE_WIDTH * 15);
+        WIFI_Transparent_SendData((uint8_t *)(ov2640_GRAY_BUFFER[i * 15]), IMAGE_WIDTH * 15);
         HAL_UART_Receive(&huart1, (uint8_t *)recv, 1, 0xffffffff);
     }
 
-/**UART Img Send */
+    /**UART Img Send */
     // HAL_UART_Transmit(&huart1, testCMD_Start, 2, 0xffffffff);
     // for (i = 0; i < OV2640_IMG_HEIGHT; i++)
     // {
@@ -36,7 +37,6 @@ void Img_Process(void)
     // }
 
     // HAL_UART_Transmit(&huart1, testCMD_End, 2, 0xffffffff);
-
 }
 
 /*求图像的统计直方图，并返回图像平均灰度*/
@@ -121,7 +121,6 @@ static void Run_Label(uint8_t **image)
 {
     uint16_t i, j;
 
-    Equals equal;
     uint16_t cnt = 1;
     uint16_t cntLabel = 0;
 
@@ -132,108 +131,108 @@ static void Run_Label(uint8_t **image)
     int16_t lastRunOnPre = -1;
 
     /*初始化行程记录表*/
-    runList.last = -1;
-    markList.last = -1;
+    runList->last = -1;
+    markList->last = -1;
 
     for (i = 0; i < IMAGE_HEIGHT; ++i)
     {
         if (image[i][0] == WHITE)
         {
             ++cntLabel;
-            runList.data[++(runList.last)].nLabel = cntLabel;
-            runList.data[runList.last].nRow = i;
-            runList.data[runList.last].nStart = 0;
+            runList->data[++(runList->last)].nLabel = cntLabel;
+            runList->data[runList->last].nRow = i;
+            runList->data[runList->last].nStart = 0;
         }
         for (j = 1; j < IMAGE_WIDTH; ++j)
         {
             if (image[i][j - 1] == BLACK && image[i][j] == WHITE)
             {
                 ++cntLabel;
-                runList.data[++(runList.last)].nLabel = cntLabel;
-                runList.data[runList.last].nRow = i;
-                runList.data[runList.last].nStart = j;
+                runList->data[++(runList->last)].nLabel = cntLabel;
+                runList->data[runList->last].nRow = i;
+                runList->data[runList->last].nStart = j;
             }
             else if (image[i][j - 1] == WHITE && image[i][j] == BLACK)
             {
-                runList.data[runList.last].nEnd = j - 1;
+                runList->data[runList->last].nEnd = j - 1;
             }
         }
         if (image[i][IMAGE_WIDTH - 1] == WHITE)
         {
-            runList.data[runList.last].nEnd = IMAGE_WIDTH - 1;
+            runList->data[runList->last].nEnd = IMAGE_WIDTH - 1;
         }
     }
 
-    for (i = 0; i < runList.data[runList.last].nLabel; ++i)
+    for (i = 0; i < runList->data[runList->last].nLabel; ++i)
     {
-        if (runList.data[i].nRow != thisRow)
+        if (runList->data[i].nRow != thisRow)
         {
-            thisRow = runList.data[i].nRow;
+            thisRow = runList->data[i].nRow;
             firstRunOnPre = firstRunOnCur;
             lastRunOnPre = i - 1;
             firstRunOnCur = i;
         }
         for (j = firstRunOnPre; j <= lastRunOnPre; ++j)
         {
-            if (runList.data[i].nStart <= runList.data[j].nEnd + 1 &&
-                runList.data[i].nEnd >= runList.data[j].nStart - 1 &&
-                runList.data[i].nRow == runList.data[j].nRow + 1)
+            if (runList->data[i].nStart <= runList->data[j].nEnd + 1 &&
+                runList->data[i].nEnd >= runList->data[j].nStart - 1 &&
+                runList->data[i].nRow == runList->data[j].nRow + 1)
             {
-                if (runList.data[i].nLabel == 0)
+                if (runList->data[i].nLabel == 0)
                 {
-                    runList.data[i].nLabel = runList.data[j].nLabel;
+                    runList->data[i].nLabel = runList->data[j].nLabel;
                 }
-                else if (runList.data[i].nLabel != runList.data[j].nLabel)
+                else if (runList->data[i].nLabel != runList->data[j].nLabel)
                 {
-                    if (runList.data[i].nLabel > runList.data[j].nLabel)
+                    if (runList->data[i].nLabel > runList->data[j].nLabel)
                     {
-                        markList.data[++(markList.last)].nMarkValue1 = runList.data[i].nLabel;
-                        markList.data[markList.last].nMarkValue2 = runList.data[j].nLabel;
+                        markList->data[++(markList->last)].nMarkValue1 = runList->data[i].nLabel;
+                        markList->data[markList->last].nMarkValue2 = runList->data[j].nLabel;
                     }
                     else
                     {
-                        markList.data[++(markList.last)].nMarkValue1 = runList.data[j].nLabel;
-                        markList.data[markList.last].nMarkValue2 = runList.data[i].nLabel;
+                        markList->data[++(markList->last)].nMarkValue1 = runList->data[j].nLabel;
+                        markList->data[markList->last].nMarkValue2 = runList->data[i].nLabel;
                     }
                 }
             }
         }
-        if (runList.data[i].nLabel == 0)
+        if (runList->data[i].nLabel == 0)
         {
-            runList.data[i].nLabel = idxLabel++;
+            runList->data[i].nLabel = idxLabel++;
         }
     }
 
-    equal.last = runList.data[runList.last].nLabel;
-    for (i = 0; i < equal.last + 1; ++i)
+    equal->last = runList->data[runList->last].nLabel;
+    for (i = 0; i < equal->last + 1; ++i)
     {
-        equal.label[i] = 0;
+        equal->label[i] = 0;
     }
 
-    for (i = 0; i < markList.last + 1; ++i)
+    for (i = 0; i < markList->last + 1; ++i)
     {
-        Equal_Process(equal.label, markList.data[i].nMarkValue1, markList.data[i].nMarkValue2);
+        Equal_Process(equal->label, markList->data[i].nMarkValue1, markList->data[i].nMarkValue2);
     }
 
-    for (i = 1; i < equal.last + 1; ++i)
+    for (i = 1; i < equal->last + 1; ++i)
     {
-        if (equal.label[i] == 0)
+        if (equal->label[i] == 0)
         {
-            equal.label[i] = cnt;
+            equal->label[i] = cnt;
             ++cnt;
         }
         else
         {
-            equal.label[i] = equal.label[equal.label[i]];
+            equal->label[i] = equal->label[equal->label[i]];
         }
     }
 
-    for (i = 0; i < runList.last + 1; ++i)
+    for (i = 0; i < runList->last + 1; ++i)
     {
-        runList.data[i].nLabel = equal.label[runList.data[i].nLabel];
-        for (j = runList.data[i].nStart; j < runList.data[i].nEnd + 1; ++j)
+        runList->data[i].nLabel = equal->label[runList->data[i].nLabel];
+        for (j = runList->data[i].nStart; j < runList->data[i].nEnd + 1; ++j)
         {
-            image[runList.data[i].nRow][j] = runList.data[i].nLabel;
+            image[runList->data[i].nRow][j] = runList->data[i].nLabel;
         }
     }
 }
@@ -265,9 +264,9 @@ void Label_Center(uint8_t **image)
 {
     uint16_t i, j, k;
     float sumRow, sumCol, area;
-    uint8_t level = 256 / (runList.data[runList.last].nLabel);
+    uint8_t level = 256 / (runList->data[runList->last].nLabel);
 
-    for (k = 1; k < runList.data[runList.last].nLabel; ++k)
+    for (k = 1; k < runList->data[runList->last].nLabel; ++k)
     {
         sumRow = 0;
         sumCol = 0;
@@ -293,8 +292,8 @@ void Label_Center(uint8_t **image)
 void Mid_Filter(uint8_t **image)
 {
     uint16_t i, j, k, l;
-    uint8_t temp[9];    //用于存放中心元素及其8邻域元素
-    uint8_t t;          //用于排序中的临时变量
+    uint8_t temp[9]; //用于存放中心元素及其8邻域元素
+    uint8_t t;       //用于排序中的临时变量
 
     for (i = 1; i < IMAGE_HEIGHT - 1; ++i)
     {

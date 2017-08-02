@@ -54,6 +54,10 @@ void Img_Init(void)
     }
 
     SDRAM_Malloc(OV2640_IMG_HEIGHT * (OV2640_IMG_WIDTH));
+		
+		runList = (RunLength *)SDRAM_Malloc(sizeof(RunLength));
+		markList = (EqualMark *)SDRAM_Malloc(sizeof(EqualMark));
+		equal = (Equals *)SDRAM_Malloc(sizeof(Equals));
 }
 
 /**
