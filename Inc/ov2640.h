@@ -24,10 +24,11 @@
 #define OV2640_ADDR 0x60
 
 /** 
-  * @brief  OV2640 SCCB Address  
+  * @brief  OV2640 Img Size
   */
-#define OV2640_IMG_HEIGHT 120
 #define OV2640_IMG_WIDTH 160
+#define OV2640_IMG_HEIGHT 120
+
 /** 
   * @brief  OV2640 Resoluton
   */
@@ -35,6 +36,7 @@
 #define ov2640_R320x240 0x01 /* QVGA Resolution                      */
 #define ov2640_R480x272 0x02 /* 480x272 Resolution                   */
 #define ov2640_R640x480 0x03 /* VGA Resolution                       */
+#define ov2640_R400x300 0x04 /* CIF                                  */
 
 /** 
   * @brief  OV2640 Registers  
@@ -180,6 +182,12 @@ extern void ov2640_SnapshotStart(uint8_t *buff);
 extern uint32_t GetSize(uint32_t resolution);
 extern void ov2640_SetYUV(void);
 extern void YUV2Gray(__IO YUV_Format *src, __IO uint8_t **des, uint16_t row, uint16_t col);
+extern void OV2640_AutoExposure(uint8_t level);
+/*Img Size Config*/
+extern void OV2640_Window_Set(uint16_t sx, uint16_t sy, uint16_t width, uint16_t height);
+extern uint8_t OV2640_ImageSize_Set(uint16_t width, uint16_t height);
+extern uint8_t OV2640_ImageWin_Set(uint16_t offx, uint16_t offy, uint16_t width, uint16_t height);
+extern uint8_t OV2640_ImgOut_Set(uint16_t width, uint16_t height);
 
 #endif /* __OV2640_H */
 

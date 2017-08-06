@@ -7,14 +7,14 @@ if __name__ == '__main__':
     from OpenGL.GLU import *
     from OpenGL.GLUT import *
     print "Socket Server Start"
-
-    buf = []
+    IMG_WIDTH = 160
+    IMG_HEIGHT = 120
     cmd1 = ['\x01', '\xfe']
     cmd2 = ['\xfe', '\x01']
-    img = [255 for i in range(160 * 120)]
+    img = [255 for i in range(IMG_WIDTH * IMG_HEIGHT)]
 
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  # start socket
-    sock.bind(('192.168.43.5', 8080))
+    sock.bind(('192.168.43.204', 8080))
     sock.listen(5)  # start TCP listening
     connection, address = sock.accept()  # wait client connection
     print 'Connected by', address
@@ -26,28 +26,29 @@ if __name__ == '__main__':
         glPixelZoom(5, 5)
         glPixelStorei(GL_UNPACK_ALIGNMENT, 1)
         img.reverse()
-        glDrawPixels(160, 120, GL_LUMINANCE, GL_UNSIGNED_BYTE, img)
+        glDrawPixels(IMG_WIDTH, IMG_HEIGHT, GL_LUMINANCE, GL_UNSIGNED_BYTE, img)
         glFlush()
 
     def IdleCallBack():
-        global buf, cmd1, cmd2, img
-        tmp = [' ' for i in range(120 / 15)]
+        global img
+        buf = []
+        tmp = [' ' for i in range(IMG_HEIGHT / 15)]
         while buf != cmd1[0]:
             buf = connection.recv(1)
         buf = connection.recv(1)
         if buf == cmd1[1]:
             connection.send('.')
-            for i in range(120 / 15):
-                tmp[i] = connection.recv(160 * 15)
+            for i in range(IMG_HEIGHT / 15):
+                tmp[i] = connection.recv(IMG_WIDTH * 15)
                 connection.send(',')
             for j in range(len(tmp)):
                 for k in range(len(tmp[j])):
-                    img[k + j * 160 * 15] = ord(tmp[j][k])
+                    img[k + j * len(tmp[j])] = ord(tmp[j][k])
             Draw()
 
     glutInit()
     glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB)
-    glutInitWindowSize(800, 600)
+    glutInitWindowSize(IMG_WIDTH * 5, IMG_HEIGHT * 5)
     glutCreateWindow("ov2640 Camera")
     glutDisplayFunc(IdleCallBack)
     glutIdleFunc(IdleCallBack)
