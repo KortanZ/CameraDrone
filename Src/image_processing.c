@@ -13,8 +13,8 @@ void Img_Process(void)
     YUV2Gray((YUV_Format *)ov2640_FRAME_BUFFER, (__IO uint8_t **)ov2640_GRAY_BUFFER, OV2640_IMG_HEIGHT, OV2640_IMG_WIDTH);
     Mid_Filter((uint8_t **)ov2640_GRAY_BUFFER);
     Gray_To_BW((uint8_t **)ov2640_GRAY_BUFFER);
-    Run_Label((uint8_t **)ov2640_GRAY_BUFFER);
-    Label_Center((uint8_t **)ov2640_GRAY_BUFFER);
+//    Run_Label((uint8_t **)ov2640_GRAY_BUFFER);
+//    Label_Center((uint8_t **)ov2640_GRAY_BUFFER);
 
     /* WIFI Img Send */
     while (recv[0] != '.')
@@ -67,7 +67,7 @@ static float Get_Histogram(uint8_t **image, float *his)
 static uint8_t Osu_Threshold(float *his, float avgValue)
 {
     uint8_t i;
-    uint8_t threshold;
+    uint8_t threshold = 0;
     float ut;
     float var, thisMaxVar = 0;
     float wk = 0, uk = 0;

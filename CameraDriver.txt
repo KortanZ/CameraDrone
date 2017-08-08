@@ -1,6 +1,6 @@
 Configuration	CameraDriver
 STM32CubeMX 	4.22.0
-Date	07/31/2017
+Date	08/04/2017
 MCU	STM32F746IGTx
 
 
@@ -152,7 +152,7 @@ SOFTWARE PROJECT
 
 Project Settings : 
 Project Name : CameraDriver
-Project Folder : E:\学校\电赛\全国电赛\Camera\CameraDrone
+Project Folder : D:\CameraDrone
 Toolchain / IDE : MDK-ARM V5
 Firmware Package Name and Version : STM32Cube FW_F7 V1.7.0
 
