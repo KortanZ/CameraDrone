@@ -20,23 +20,23 @@ void Img_Process(void)
 
     YUV2Gray((YUV_Format *)ov2640_FRAME_BUFFER, (__IO uint8_t **)ov2640_GRAY_BUFFER, OV2640_IMG_HEIGHT, OV2640_IMG_WIDTH);
     Mid_Filter((uint8_t **)ov2640_GRAY_BUFFER);
-    Gray_To_BW((uint8_t **)ov2640_GRAY_BUFFER);
+    // Gray_To_BW((uint8_t **)ov2640_GRAY_BUFFER);
     // Run_Label((uint8_t **)ov2640_GRAY_BUFFER);
     // Label_Center((uint8_t **)ov2640_GRAY_BUFFER);
     Hough_Line((uint8_t **)ov2640_GRAY_BUFFER);
 
     // /* WIFI Img Send */
-    // while (recv[0] != '.')
-    // {
-    //     WIFI_Transparent_SendData(testCMD_Start, 2);
-    //     HAL_UART_Receive(&huart1, (uint8_t *)recv, 1, 1);
-    // }
-    // recv[0] = 0;
-    // for (i = 0; i < OV2640_IMG_HEIGHT / 15; i++)
-    // {
-    //     WIFI_Transparent_SendData((uint8_t *)(sobelBuff[i * 15]), IMAGE_WIDTH * 15);
-    //     HAL_UART_Receive(&huart1, (uint8_t *)recv, 1, 0xffffffff);
-    // }
+    while (recv[0] != '.')
+    {
+        WIFI_Transparent_SendData(testCMD_Start, 2);
+        HAL_UART_Receive(&huart1, (uint8_t *)recv, 1, 1);
+    }
+    recv[0] = 0;
+    for (i = 0; i < OV2640_IMG_HEIGHT / 15; i++)
+    {
+        WIFI_Transparent_SendData((uint8_t *)(sobelBuff[i * 15]), IMAGE_WIDTH * 15);
+        HAL_UART_Receive(&huart1, (uint8_t *)recv, 1, 0xffffffff);
+    }
 
     /* UART Img Send */
     // HAL_UART_Transmit(&huart1, testCMD_Start, 2, 0xffffffff);
@@ -76,7 +76,7 @@ static float Get_Histogram(uint8_t **image, float *his)
 static uint8_t Osu_Threshold(float *his, float avgValue)
 {
     uint8_t i;
-    uint8_t threshold;
+    uint8_t threshold = 0;
     float ut;
     float var, thisMaxVar = 0;
     float wk = 0, uk = 0;
@@ -113,7 +113,7 @@ static void Gray_To_BW(uint8_t **image)
     {
         for (j = 0; j < IMAGE_WIDTH; ++j)
         {
-            if (image[i][j] > threshold)
+            if (image[i][j] < threshold)
             {
                 image[i][j] = BLACK;
             }
@@ -351,8 +351,12 @@ void Hough_Line(uint8_t **image)
     float sinMean, cosMean;
     uint32_t magnitude;
 
-    uint8_t img_label_tmp;
+    int32_t img_label_tmp;
 
+    for (i = 0; i < HOUGH_THETA_SIZE * HOUGH_ROH_SIZE; i++)
+    {
+        houghAcc[i] = 0;
+    }
     /**用sobel提取梯度，并依据梯度进行霍夫变换 */
     for (i = 1; i < OV2640_IMG_HEIGHT - 1; i++)
     {
@@ -360,24 +364,24 @@ void Hough_Line(uint8_t **image)
         {
             // if (image[i][j] == WHITE) //二值化后的黑线
             // {
-                /*Sobel Start*/
-                x_acc = sobelGx[0][0] * image[i - 1][j - 1] + sobelGx[0][1] * image[i - 1][j] + sobelGx[0][2] * image[i - 1][j + 1] + sobelGx[1][0] * image[i][j - 1] + sobelGx[1][1] * image[i][j] + sobelGx[1][2] * image[i][j + 1] + sobelGx[2][0] * image[i + 1][j - 1] + sobelGx[2][1] * image[i + 1][j] + sobelGx[2][2] * image[i + 1][j + 1];
-                y_acc = sobelGy[0][0] * image[i - 1][j - 1] + sobelGy[0][1] * image[i - 1][j] + sobelGy[0][2] * image[i - 1][j + 1] + sobelGy[1][0] * image[i][j - 1] + sobelGy[1][1] * image[i][j] + sobelGy[1][2] * image[i][j + 1] + sobelGy[2][0] * image[i + 1][j - 1] + sobelGy[2][1] * image[i + 1][j] + sobelGy[2][2] * image[i + 1][j + 1];
+            /*Sobel Start*/
+            x_acc = sobelGx[0][0] * image[i - 1][j - 1] + sobelGx[0][1] * image[i - 1][j] + sobelGx[0][2] * image[i - 1][j + 1] + sobelGx[1][0] * image[i][j - 1] + sobelGx[1][1] * image[i][j] + sobelGx[1][2] * image[i][j + 1] + sobelGx[2][0] * image[i + 1][j - 1] + sobelGx[2][1] * image[i + 1][j] + sobelGx[2][2] * image[i + 1][j + 1];
+            y_acc = sobelGy[0][0] * image[i - 1][j - 1] + sobelGy[0][1] * image[i - 1][j] + sobelGy[0][2] * image[i - 1][j + 1] + sobelGy[1][0] * image[i][j - 1] + sobelGy[1][1] * image[i][j] + sobelGy[1][2] * image[i][j + 1] + sobelGy[2][0] * image[i + 1][j - 1] + sobelGy[2][1] * image[i + 1][j] + sobelGy[2][2] * image[i + 1][j + 1];
 
-                /*Sobel End*/
-                // if (fast_roundf(fast_sqrtf((x_acc * x_acc) + (y_acc * y_acc))) > SOBEL_THRESH)
-                //     ((uint8_t **)sobelBuff)[i][j] = WHITE;
-                // else
-                //     ((uint8_t **)sobelBuff)[i][j] = BLACK;
-                //原点在图像左上角，roh，theta分度都为1
-                theta = fast_roundf(fast_atan2f(y_acc, x_acc) * 57.295780f) % 180; // * (180 / PI)
-                if (theta < 0)
-                    theta += 180;
-                rho = fast_roundf((j * cos_table[theta]) + (i * sin_table[theta])) + IMAGE_DIAG_LEN; //偏移为正值，方便作为数组索引，后边再变回去
-                acc_index = (rho * HOUGH_THETA_SIZE) + theta + 1;                                    // add offset --- 后边8邻域最大值要去掉最外边一圈，所以在这加个1，往后移一位
+            /*Sobel End*/
+            // if (fast_roundf(fast_sqrtf((x_acc * x_acc) + (y_acc * y_acc))) > SOBEL_THRESH)
+            //     ((uint8_t **)sobelBuff)[i][j] = WHITE;
+            // else
+            //     ((uint8_t **)sobelBuff)[i][j] = image[i][j];
+            //原点在图像左上角，roh，theta分度都为1
+            theta = fast_roundf(fast_atan2f(y_acc, x_acc) * 57.295780f) % 180; // * (180 / PI)
+            if (theta < 0)
+                theta += 180;
+            rho = fast_roundf((j * cos_table[theta]) + (i * sin_table[theta])) + IMAGE_DIAG_LEN; //偏移为正值，方便作为数组索引，后边再变回去
+            acc_index = (rho * HOUGH_THETA_SIZE) + theta + 1;                                    // add offset --- 后边8邻域最大值要去掉最外边一圈，所以在这加个1，往后移一位
 
-                acc_value = houghAcc[acc_index] + fast_roundf(fast_sqrtf((x_acc * x_acc) + (y_acc * y_acc)));
-                houghAcc[acc_index] = acc_value;
+            acc_value = houghAcc[acc_index] + fast_roundf(fast_sqrtf((x_acc * x_acc) + (y_acc * y_acc)));
+            houghAcc[acc_index] = acc_value;
             // }
         }
     }
@@ -390,11 +394,11 @@ void Hough_Line(uint8_t **image)
 
         for (j = 1; j < HOUGH_THETA_SIZE - 1; j++)
         {
-            if ((row_ptr[j] >= SOBEL_THRESH) && (row_ptr[j] >= row_ptr[j - HOUGH_THETA_SIZE - 1]) && (row_ptr[j] >= row_ptr[j - HOUGH_THETA_SIZE]) && (row_ptr[j] >= row_ptr[j - HOUGH_THETA_SIZE + 1]) && (row_ptr[j] >= row_ptr[j - 1]) && (row_ptr[j] >= row_ptr[j + 1]) && (row_ptr[j] >= row_ptr[j + HOUGH_THETA_SIZE - 1]) && (row_ptr[j] >= row_ptr[j + HOUGH_THETA_SIZE]) && (row_ptr[j] >= row_ptr[j + HOUGH_THETA_SIZE + 1]))
+            if ((row_ptr[j] >= HOUGH_SOBEL_MERGE_THRESH) && (row_ptr[j] >= row_ptr[j - HOUGH_THETA_SIZE - 1]) && (row_ptr[j] >= row_ptr[j - HOUGH_THETA_SIZE]) && (row_ptr[j] >= row_ptr[j - HOUGH_THETA_SIZE + 1]) && (row_ptr[j] >= row_ptr[j - 1]) && (row_ptr[j] >= row_ptr[j + 1]) && (row_ptr[j] >= row_ptr[j + HOUGH_THETA_SIZE - 1]) && (row_ptr[j] >= row_ptr[j + HOUGH_THETA_SIZE]) && (row_ptr[j] >= row_ptr[j + HOUGH_THETA_SIZE + 1]))
             {
                 lines[lineCnt].magnitude = row_ptr[j];
-                lines[lineCnt].theta = i - 1; // remove offset
-                lines[lineCnt].rho = j - IMAGE_DIAG_LEN;
+                lines[lineCnt].theta = j - 1; // remove offset
+                lines[lineCnt].rho = i - IMAGE_DIAG_LEN;
                 lines[lineCnt].mergeFlag = HOUGH_LINE_MERGE_RAW;
                 lineCnt++;
             }
@@ -463,7 +467,7 @@ void Hough_Line(uint8_t **image)
     {
         for (j = 0; j < IMAGE_WIDTH; j++)
         {
-            ((uint8_t **)sobelBuff)[i][j] = BLACK;
+            ((uint8_t **)sobelBuff)[i][j] = image[i][j];
         }
         // des[i][j] = 0x00;
     }
@@ -473,46 +477,23 @@ void Hough_Line(uint8_t **image)
     {
         if (lines[i].mergeFlag == HOUGH_LINE_MERGE_MERGED)
         {
-            img_label_tmp = fast_roundf((lines[i].rho - (10 * cos_table[lines[i].theta])) / sin_table[lines[i].theta]);
-            if (img_label_tmp > 0 && img_label_tmp < IMAGE_HEIGHT)
+            // for (j = 0; j < IMAGE_WIDTH; j++)
+            // {
+            //     img_label_tmp = fast_roundf((lines[i].rho - (j * cos_table[lines[i].theta])) / sin_table[lines[i].theta]);
+            //     if (img_label_tmp > 0 && img_label_tmp < IMAGE_HEIGHT)
+            //     {
+            //         ((uint8_t **)sobelBuff)[img_label_tmp][j] = WHITE;
+            //     }
+            // }
+
+            for (j = 0; j < IMAGE_HEIGHT; j++)
             {
-                ((uint8_t **)sobelBuff)[img_label_tmp][10] = WHITE;
-                img_label_tmp = fast_roundf((lines[i].rho - (12 * cos_table[lines[i].theta])) / sin_table[lines[i].theta]);
-                if (img_label_tmp > 0 && img_label_tmp < IMAGE_HEIGHT)
-                    ((uint8_t **)sobelBuff)[img_label_tmp][12] = WHITE;
-            }
-
-
-            img_label_tmp = fast_roundf((lines[i].rho - ((IMAGE_WIDTH - 10) * cos_table[lines[i].theta])) / sin_table[lines[i].theta]);
-            if (img_label_tmp > 0 && img_label_tmp < IMAGE_HEIGHT)
-            {
-                ((uint8_t **)sobelBuff)[img_label_tmp][IMAGE_WIDTH - 10] = WHITE;
-                img_label_tmp = fast_roundf((lines[i].rho - ((IMAGE_WIDTH - 12) * cos_table[lines[i].theta])) / sin_table[lines[i].theta]);
-                if (img_label_tmp > 0 && img_label_tmp < IMAGE_HEIGHT)
-                    ((uint8_t **)sobelBuff)[img_label_tmp][IMAGE_WIDTH - 12] = WHITE;
-            }
-
-
-            img_label_tmp = fast_roundf((lines[i].rho - (10 * sin_table[lines[i].theta])) / cos_table[lines[i].theta]);
-            if (img_label_tmp > 0 && img_label_tmp < IMAGE_WIDTH)
-            {
-                ((uint8_t **)sobelBuff)[10][img_label_tmp] = WHITE;
-                img_label_tmp = fast_roundf((lines[i].rho - (12 * sin_table[lines[i].theta])) / cos_table[lines[i].theta]);
+                img_label_tmp = fast_roundf((lines[i].rho - (j * sin_table[lines[i].theta])) / cos_table[lines[i].theta]);
                 if (img_label_tmp > 0 && img_label_tmp < IMAGE_WIDTH)
-                    ((uint8_t **)sobelBuff)[12][img_label_tmp] = WHITE;
+                {
+                    ((uint8_t **)sobelBuff)[j][img_label_tmp] = WHITE;
+                }
             }
-
-
-            
-            img_label_tmp = fast_roundf((lines[i].rho - ((IMAGE_HEIGHT - 10) * sin_table[lines[i].theta])) / cos_table[lines[i].theta]);
-            if (img_label_tmp > 0 && img_label_tmp < IMAGE_WIDTH)
-            {
-                ((uint8_t **)sobelBuff)[IMAGE_HEIGHT - 10][img_label_tmp] = WHITE;
-                img_label_tmp = fast_roundf((lines[i].rho - ((IMAGE_HEIGHT - 12) * sin_table[lines[i].theta])) / cos_table[lines[i].theta]);
-                if (img_label_tmp > 0 && img_label_tmp < IMAGE_WIDTH)
-                    ((uint8_t **)sobelBuff)[IMAGE_HEIGHT - 12][img_label_tmp] = WHITE;
-            }
-
         }
     }
 }

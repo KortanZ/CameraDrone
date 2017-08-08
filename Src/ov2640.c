@@ -384,12 +384,61 @@ void YUV2Gray(__IO YUV_Format *src, __IO uint8_t **des, uint16_t row, uint16_t c
     {
         for (j = 0; j < col; j++)
         {
-            // des[i][j] = src[col * i + j].Y;
-            des[i][j] = imgTest[i][j];
+            des[i][j] = src[col * i + j].pixType[0];
+            // des[i][j] = imgTest[i][j];
         }
         // des[i][j] = 0x00;
     }
 }
+
+void YUV2Blue(__IO YUV_Format *src, __IO uint8_t **des, uint16_t row, uint16_t col)
+{
+    uint16_t i, j;
+    __IO uint8_t pixTemp;
+
+    for (i = 0; i < row; i++)
+    {
+        for (j = 0; j < col; j++)
+        {
+            if ((col * i + j) % 2 == 0)
+            {
+                des[i][j] = src[col * i + j].pixType[1];
+            }
+            else
+            {
+                des[i][j] = src[(col * i + j) - 1].pixType[1];
+            }
+            
+            // des[i][j] = WHITE;
+        }
+        // des[i][j] = 0x00;
+    }
+}
+
+void YUV2Red(__IO YUV_Format *src, __IO uint8_t **des, uint16_t row, uint16_t col)
+{
+    uint16_t i, j;
+    __IO uint8_t pixTemp;
+
+    for (i = 0; i < row; i++)
+    {
+        for (j = 0; j < col; j++)
+        {
+            if ((col * i + j) % 2 == 1)
+            {
+                des[i][j] = src[col * i + j].pixType[1];
+            }
+            else
+            {
+                des[i][j] = src[(col * i + j) + 1].pixType[1];
+            }
+            
+            // des[i][j] = WHITE;
+        }
+        // des[i][j] = 0x00;
+    }
+}
+
 /******************************************************************************
                             Static Functions
 *******************************************************************************/

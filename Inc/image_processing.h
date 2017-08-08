@@ -28,13 +28,17 @@
 #define HOUGH_LINE_MERGE_MERGED 1
 #define HOUGH_LINE_MERGE_BE_MERGED 2
 
+#define SOBEL_THRESH 400
+#define HOUGH_SOBEL_MERGE_THRESH (5 * SOBEL_THRESH)
+
 #define HOUGH_THETA_DIFF_MARGIN 22
-#define HOUGH_ROH_DIFF_MARGIN   10
-
-#define SOBEL_THRESH 1000
+#define HOUGH_ROH_DIFF_MARGIN   5
 
 
-#define MAX_LEN 100
+
+
+
+#define MAX_LEN 500
 
 typedef struct 
 {
