@@ -52,11 +52,19 @@ void Img_Init(void)
 
     SDRAM_Malloc(OV2640_IMG_HEIGHT * (OV2640_IMG_WIDTH));
 
-    // runList = (RunLength *)SDRAM_Malloc(sizeof(RunLength));
-    // markList = (EqualMark *)SDRAM_Malloc(sizeof(EqualMark));
-    // equal = (Equals *)SDRAM_Malloc(sizeof(Equals));
+    runList = (RunLength *)SDRAM_Malloc(sizeof(RunLength));
+    markList = (EqualMark *)SDRAM_Malloc(sizeof(EqualMark));
+    equal = (Equals *)SDRAM_Malloc(sizeof(Equals));
 
     lines = (HoughLine *)SDRAM_Malloc(sizeof(HoughLine) * HOUGH_LINE_SIZE);
+    houghAcc = (uint16_t *)SDRAM_Malloc(sizeof(uint16_t) * HOUGH_THETA_SIZE * HOUGH_ROH_SIZE);
+
+    sobelBuff = (uint32_t *)SDRAM_Malloc((uint32_t)OV2640_IMG_HEIGHT * 4);
+    for (i = 0; i < OV2640_IMG_HEIGHT; i++)
+    {
+        sobelBuff[i] = (uint32_t)sobelBuff + OV2640_IMG_HEIGHT * 4 + (OV2640_IMG_WIDTH) * i;
+    }
+
 }
 
 /**
@@ -376,6 +384,7 @@ void YUV2Gray(__IO YUV_Format *src, __IO uint8_t **des, uint16_t row, uint16_t c
         for (j = 0; j < col; j++)
         {
             des[i][j] = src[col * i + j].Y;
+            // des[i][j] = WHITE;
         }
         // des[i][j] = 0x00;
     }

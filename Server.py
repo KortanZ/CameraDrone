@@ -14,7 +14,7 @@ if __name__ == '__main__':
     img = [255 for i in range(IMG_WIDTH * IMG_HEIGHT)]
 
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  # start socket
-    sock.bind(('192.168.43.204', 8080))
+    sock.bind(('192.168.2.102', 8080))
     sock.listen(5)  # start TCP listening
     connection, address = sock.accept()  # wait client connection
     print 'Connected by', address

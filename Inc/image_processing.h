@@ -1,7 +1,6 @@
 #ifndef _IMAGE_PROESSING_H_
 #define _IMAGE_PROESSING_H_ 
 
-#include <math.h>
 #include <stdlib.h>
 #include "stm32f7xx_hal.h"
 #include "main.h"
@@ -9,6 +8,7 @@
 #include "ov2640.h"
 #include "sdram.h"
 #include "wifi.h"
+#include "fmath.h"
 
 #define MAX_HIS_LENGTH 256
 #define IMAGE_HEIGHT OV2640_IMG_HEIGHT
@@ -28,11 +28,13 @@
 #define HOUGH_LINE_MERGE_MERGED 1
 #define HOUGH_LINE_MERGE_BE_MERGED 2
 
-#define HOUGH_THETA_DIFF_MARGIN 
-#define HOUGH_ROH_DIFF_MARGIN
+#define HOUGH_THETA_DIFF_MARGIN 22
+#define HOUGH_ROH_DIFF_MARGIN   10
+
+#define SOBEL_THRESH 1000
 
 
-#define MAX_LEN 10000
+#define MAX_LEN 100
 
 typedef struct 
 {
@@ -79,11 +81,14 @@ typedef struct
 
 extern float his[MAX_HIS_LENGTH];
 
-// extern RunLength *runList;
-// extern EqualMark *markList;
-// extern Equals *equal;
+extern RunLength *runList;
+extern EqualMark *markList;
+extern Equals *equal;
 
-extern houghLine *lines;
+extern HoughLine *lines;
+extern uint16_t* houghAcc;
+
+extern uint32_t *sobelBuff;
 
 /*------------Exported functions-----------*/
 void Img_Process(void);
@@ -96,5 +101,7 @@ static void Run_Label(uint8_t **image);
 static void Equal_Process(uint16_t *equal, uint16_t nValue1, uint16_t nValue2);
 static void Label_Center(uint8_t **image);
 static void Mid_Filter(uint8_t **image);
+
+static void Hough_Line(uint8_t **image);
 
 #endif
