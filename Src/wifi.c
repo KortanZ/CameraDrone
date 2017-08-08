@@ -9,8 +9,8 @@ const uint8_t CRLF[] = "\r\n";
 
 const uint8_t trans_para1[] = "AT+CWMODE_CUR=3\r\n";
 const uint8_t trans_para2[] = "AT+CIPMUX=0\r\n";
-const uint8_t trans_para3[] = "AT+CWJAP_CUR=\"Laboratory three\",\"meiyoumima\"\r\n";
-const uint8_t trans_para4[] = "AT+CIPSTART=\"TCP\",\"192.168.2.102\",8080\r\n";
+const uint8_t trans_para3[] = "AT+CWJAP_CUR=\"ESP8266TEST\",\"12345678\"\r\n";
+const uint8_t trans_para4[] = "AT+CIPSTART=\"TCP\",\"192.168.43.204\",8080\r\n";
 const uint8_t trans_para5[] = "AT+CIPMODE=1\r\n";
 const uint8_t trans_SendCommand[] = "AT+CIPSEND\r\n";
 

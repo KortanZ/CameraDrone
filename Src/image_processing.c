@@ -26,17 +26,17 @@ void Img_Process(void)
     Hough_Line((uint8_t **)ov2640_GRAY_BUFFER);
 
     // /* WIFI Img Send */
-    while (recv[0] != '.')
-    {
-        WIFI_Transparent_SendData(testCMD_Start, 2);
-        HAL_UART_Receive(&huart1, (uint8_t *)recv, 1, 1);
-    }
-    recv[0] = 0;
-    for (i = 0; i < OV2640_IMG_HEIGHT / 15; i++)
-    {
-        WIFI_Transparent_SendData((uint8_t *)(sobelBuff[i * 15]), IMAGE_WIDTH * 15);
-        HAL_UART_Receive(&huart1, (uint8_t *)recv, 1, 0xffffffff);
-    }
+    // while (recv[0] != '.')
+    // {
+    //     WIFI_Transparent_SendData(testCMD_Start, 2);
+    //     HAL_UART_Receive(&huart1, (uint8_t *)recv, 1, 1);
+    // }
+    // recv[0] = 0;
+    // for (i = 0; i < OV2640_IMG_HEIGHT / 15; i++)
+    // {
+    //     WIFI_Transparent_SendData((uint8_t *)(sobelBuff[i * 15]), IMAGE_WIDTH * 15);
+    //     HAL_UART_Receive(&huart1, (uint8_t *)recv, 1, 0xffffffff);
+    // }
 
     /* UART Img Send */
     // HAL_UART_Transmit(&huart1, testCMD_Start, 2, 0xffffffff);

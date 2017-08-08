@@ -1,6 +1,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "ov2640.h"
 #include "ov2640_para_table.h"
+#include "imgData.h"
 
 /*Private Function*/
 static void ov2640_Component_Init(uint16_t deviceAddr, uint32_t resolution);
@@ -383,8 +384,8 @@ void YUV2Gray(__IO YUV_Format *src, __IO uint8_t **des, uint16_t row, uint16_t c
     {
         for (j = 0; j < col; j++)
         {
-            des[i][j] = src[col * i + j].Y;
-            // des[i][j] = WHITE;
+            // des[i][j] = src[col * i + j].Y;
+            des[i][j] = imgTest[i][j];
         }
         // des[i][j] = 0x00;
     }
