@@ -64,6 +64,7 @@ void Img_Init(void)
     {
         sobelBuff[i] = (uint32_t)sobelBuff + OV2640_IMG_HEIGHT * 4 + (OV2640_IMG_WIDTH) * i;
     }
+		SDRAM_Malloc(OV2640_IMG_HEIGHT * (OV2640_IMG_WIDTH));
 
 }
 

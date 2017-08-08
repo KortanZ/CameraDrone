@@ -34,7 +34,7 @@
 #define SOBEL_THRESH 1000
 
 
-#define MAX_LEN 500
+#define MAX_LEN 1000
 
 typedef struct 
 {
